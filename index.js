@@ -59,8 +59,13 @@ const handleErrors = fn => async (req, res) => {
 };
 
 function urlPathToFsPath(p) {
+  
   let newPath = url.parse(p).pathname;
-  newPath = decodeURI(newPath);
+  if (newPath == null) {
+    newPath = ""
+  } else {
+    newPath = decodeURI(newPath);
+  }
 
   const parsedPath = path.parse(newPath);
 
@@ -107,6 +112,7 @@ async function sendFile(res, bucket, filePath) {
 }
 
 async function handleSingleBucket(req, res) {
+  
   const filePath = urlPathToFsPath(req.url);
   const bucketName = allowedBuckets[0];
 
